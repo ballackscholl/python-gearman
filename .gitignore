@@ -1,0 +1,5 @@
+.idea/*
+.svn/*
+build/*
+dist/*
+*.pyc
