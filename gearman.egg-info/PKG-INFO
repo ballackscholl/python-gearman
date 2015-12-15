@@ -29,7 +29,7 @@ Description: ==============
         * 1.x source <http://github.com/samuel/python-gearman/>
         * 1.x documentation <http://github.com/samuel/python-gearman/tree/master/docs/>
         
-Platform: UNKNOWN
+Platform: any
 Classifier: Development Status :: 5 - Production/Stable
 Classifier: Intended Audience :: Developers
 Classifier: License :: OSI Approved :: Apache Software License
