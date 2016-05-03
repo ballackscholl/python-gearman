@@ -11,6 +11,9 @@ from gearman.protocol import GEARMAN_PARAMS_FOR_COMMAND, GEARMAN_COMMAND_TEXT_CO
 
 gearman_logger = logging.getLogger(__name__)
 
+SEND_BUF_SIZE = 8192
+RECV_BUF_SIZE = 8192
+
 class GearmanConnection(object):
     """A connection between a client/worker and a server.  Can be used to reconnect (unlike a socket)
 
@@ -95,6 +98,8 @@ class GearmanConnection(object):
         """Creates a client side socket and subsequently binds/configures our socket options"""
         try:
             client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, SEND_BUF_SIZE)
+            client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, RECV_BUF_SIZE)
             client_socket.connect((self.gearman_host, self.gearman_port))
         except socket.error, socket_exception:
             self.throw_exception(exception=socket_exception)
@@ -135,7 +140,7 @@ class GearmanConnection(object):
 
         return received_commands
 
-    def read_data_from_socket(self, bytes_to_read=4096):
+    def read_data_from_socket(self, bytes_to_read=SEND_BUF_SIZE):
         """Reads data from socket --> buffer"""
         if not self.connected:
             self.throw_exception(message='disconnected')
